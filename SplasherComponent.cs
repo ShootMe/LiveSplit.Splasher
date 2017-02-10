@@ -42,7 +42,7 @@ namespace LiveSplit.Splasher {
 
 			if (currentSplit == -1) {
 				float elapsedTime = mem.ElapsedTime();
-				shouldSplit = mem.SceneName() == "A1" && mem.GameMode() != GameMode.Standard && mem.ChronoState() == ChronometerState.Running && mem.CurrentCheckpoint() == 0 && elapsedTime > 0 && elapsedTime < 0.5;
+				shouldSplit = mem.GameMode() != GameMode.Standard && mem.ChronoState() == ChronometerState.Running && mem.CurrentCheckpoint() == 0 && elapsedTime > 0 && elapsedTime < 0.5;
 			} else if (Model.CurrentState.CurrentPhase == TimerPhase.Running) {
 				int checkpoint = mem.CurrentCheckpoint();
 				if (settings.Checkpoints) {
@@ -51,7 +51,8 @@ namespace LiveSplit.Splasher {
 					}
 				}
 
-				bool finished = mem.ChronoState() == ChronometerState.Finished;
+				ChronometerState chronoState = mem.ChronoState();
+				bool finished = chronoState == ChronometerState.Finished;
 				if (finished && !lastFinished) {
 					shouldSplit = true;
 				}
@@ -60,7 +61,7 @@ namespace LiveSplit.Splasher {
 				lastCheckpoint = checkpoint;
 
 				LockControlType controlLock = mem.ControlLock();
-				Model.CurrentState.IsGameTimePaused = controlLock != LockControlType.None || mem.Paused();
+				Model.CurrentState.IsGameTimePaused = controlLock != LockControlType.None || mem.Paused() || chronoState != ChronometerState.Running;
 			}
 
 			GameMode gameMode = mem.GameMode();
