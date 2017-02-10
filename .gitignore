@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/bin
+/obj/Debug
+/Components/LiveSplit.Splasher.exe
+/LiveSplit.Splasher.csproj.user
+/.vs/LiveSplit.Splasher/v14
+/obj/Release
