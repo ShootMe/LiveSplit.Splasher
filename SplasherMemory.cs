@@ -49,7 +49,7 @@ namespace LiveSplit.Splasher {
 			return (ChronometerState)chronoState.Read<int>(0x0);
 		}
 		public float ElapsedTime() {
-			return chronoState.Read<float>(0x4);
+			return (float)(int)(chronoState.Read<float>(0x4) * 100f) / 100f;
 		}
 
 		public bool HookProcess() {

@@ -12,7 +12,7 @@ namespace LiveSplit.Splasher {
 		public string ComponentName { get { return "Splasher Autosplitter"; } }
 		public TimerModel Model { get; set; }
 		public IDictionary<string, Action> ContextMenuControls { get { return null; } }
-		internal static string[] keys = { "CurrentSplit", "State", "SceneName", "Checkpoints", "CurrentCP", "Paused", "GameMode", "ChronoState", "ControlLock" };
+		internal static string[] keys = { "CurrentSplit", "State", "SceneName", "Checkpoints", "CurrentCP", "Paused", "GameMode", "ChronoState", "ControlLock", "FinTime" };
 		private SplasherMemory mem;
 		private int currentSplit = -1, state = 0, lastLogCheck = 0, lastCheckpoint = 0;
 		private bool hasLog = false, lastFinished = false;
@@ -64,6 +64,10 @@ namespace LiveSplit.Splasher {
 				Model.CurrentState.IsGameTimePaused = controlLock != LockControlType.None || mem.Paused() || chronoState != ChronometerState.Running;
 			}
 
+			if (currentSplit >= 0 && Model.CurrentState.IsGameTimePaused) {
+				Model.CurrentState.SetGameTime(TimeSpan.FromSeconds(mem.ElapsedTime()));
+			}
+
 			GameMode gameMode = mem.GameMode();
 			HandleSplit(shouldSplit, settings.AutoReset && gameMode == GameMode.Standard || (gameMode == GameMode.TimeAttack && string.IsNullOrEmpty(mem.SceneName())));
 		}
@@ -113,6 +117,22 @@ namespace LiveSplit.Splasher {
 						case "GameMode": curr = mem.GameMode().ToString(); break;
 						case "ChronoState": curr = mem.ChronoState().ToString(); break;
 						case "ControlLock": curr = mem.ControlLock().ToString(); break;
+						case "FinTime":
+							ChronometerState cs = mem.ChronoState();
+							if (cs == ChronometerState.Finished) {
+								float time = mem.ElapsedTime();
+								int num = (int)(time / 60f);
+								float num2 = time - (float)(60 * num);
+								int num3 = (int)num2;
+								int num4 = (int)((num2 - (float)num3) * 100f);
+								string text = (num < 10) ? ("0" + num) : (string.Empty + num);
+								string text2 = (num3 < 10) ? ("0" + num3) : (string.Empty + num3);
+								string text3 = (num4 < 10) ? ("0" + num4) : (string.Empty + num4);
+								curr = text + ":" + text2 + ":" + text3;
+							} else {
+								curr = prev;
+							}
+							break;
 						default: curr = ""; break;
 					}
 
