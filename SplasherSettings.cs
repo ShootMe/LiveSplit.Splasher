@@ -39,14 +39,14 @@ namespace LiveSplit.Splasher {
 		public XmlNode UpdateSettings(XmlDocument document) {
 			XmlElement xmlSettings = document.CreateElement("Settings");
 
-			SetSetting(document, xmlSettings, chkAutoReset, "AutoReset");
-			SetSetting(document, xmlSettings, chkCheckpoints, "Checkpoints");
+			SetSetting(document, xmlSettings, AutoReset, "AutoReset");
+			SetSetting(document, xmlSettings, Checkpoints, "Checkpoints");
 
 			return xmlSettings;
 		}
-		private void SetSetting(XmlDocument document, XmlElement settings, CheckBox chk, string name) {
+		private void SetSetting(XmlDocument document, XmlElement settings, bool val, string name) {
 			XmlElement xmlOption = document.CreateElement(name);
-			xmlOption.InnerText = chk.Checked.ToString();
+			xmlOption.InnerText = val.ToString();
 			settings.AppendChild(xmlOption);
 		}
 		public void SetSettings(XmlNode settings) {
