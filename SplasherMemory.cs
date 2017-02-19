@@ -19,37 +19,48 @@ namespace LiveSplit.Splasher {
 		}
 
 		public string SceneName() {
-			return gameData.Read(0x1f8, 0x18);
+			//GameData.Instance.CurrentLevelMetaData.SceneName
+			return gameData.Read(0x208, 0x18);
 		}
 		public string LevelName() {
-			return gameData.Read(0x1f8, 0x20, 0x10);
+			//GameData.Instance.CurrentLevelMetaData.LevelName.Id
+			return gameData.Read(0x208, 0x20, 0x10);
 		}
 		public int Checkpoints() {
-			return gameData.Read<int>(0x1f0, 0x38);
+			//GameData.Instance.CurrentLevelData.CheckpointCount
+			return gameData.Read<int>(0x200, 0x38);
 		}
 		public int CurrentCheckpoint() {
+			//GameManager.Instance.CheckpointIndex
 			return gameManager.Read<int>(0x0, 0xd8);
 		}
 		public float PBTime(int checkpoint) {
-			return gameData.Read<float>(0x1f0, 0x20, 0x20 + 0x4 * checkpoint);
+			//GameData.Instance.CurrentLevelData.PersonalBestTimes[checkpoint]
+			return gameData.Read<float>(0x200, 0x20, 0x20 + 0x4 * checkpoint);
 		}
 		public float CurrentTime(int checkpoint) {
-			return gameData.Read<float>(0x1f0, 0x28, 0x20 + 0x4 * checkpoint);
+			//GameData.Instance.CurrentLevelData.currentTimes[checkpoint]
+			return gameData.Read<float>(0x200, 0x28, 0x20 + 0x4 * checkpoint);
 		}
 		public bool Paused() {
+			//GameManager.Instance.paused
 			return gameManager.Read<bool>(0x0, 0xa0);
 		}
 		public LockControlType ControlLock() {
+			//GameManager._lockControl
 			return (LockControlType)gameManager.Read<int>(0xc);
 		}
 		public GameMode GameMode() {
+			//GameManager.Mode
 			return (GameMode)gameManager.Read<int>(0x10);
 		}
 		public ChronometerState ChronoState() {
-			return (ChronometerState)chronoState.Read<int>(0x0);
+			//ChronoHUD.State
+			return (ChronometerState)chronoState.Read<int>(0xc);
 		}
 		public float ElapsedTime() {
-			return (float)(int)(chronoState.Read<float>(0x4) * 100f) / 100f;
+			//ChronoHUD.elapsedTime
+			return (float)(int)(chronoState.Read<float>(0x10) * 100f) / 100f;
 		}
 
 		public bool HookProcess() {
@@ -86,7 +97,7 @@ namespace LiveSplit.Splasher {
 			{MemVersion.V1, new Dictionary<MemPointer, string>() {
 				{MemPointer.GameData, "55488BEC564883EC08488BF1488B0425????????488B4018488B4018F30F1005EC000000F30F5AC0F30F100DD0000000F30F5AC9F30F105610F30F5AD2F20F5CCAF20F59C1488BC8|-56"},
 				{MemPointer.GameManager, "55488BEC564883EC08488BF1F30F10050C030000F30F5AC0F20F5AC04883EC2049BB????????????????41FFD34883C420B8" },
-				{MemPointer.ChronoHUD, "55488BEC4883EC1048894DF8B8????????C70001000000488B0425????????488945F0488B45F8488B4068488BC84883EC2083380049BB|-42" }
+				{MemPointer.ChronoHUD, "55488BEC564883EC18488BF1B8????????488930488B4648488945E8488B0425????????488B4018488B80|-30" } //ChronoHUD.Awake
 			}},
 		};
 		private IntPtr pointer;
