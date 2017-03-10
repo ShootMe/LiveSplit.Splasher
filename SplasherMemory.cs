@@ -130,9 +130,9 @@ namespace LiveSplit.Splasher {
 			bool is64bit = Memory.Program.Is64Bit();
 			IntPtr p = IntPtr.Zero;
 			if (is64bit) {
-				p = (IntPtr)Memory.Program.Read<long>(Value, offsets);
+				p = (IntPtr)Memory.Program.Read<ulong>(Value, offsets);
 			} else {
-				p = (IntPtr)Memory.Program.Read<int>(Value, offsets);
+				p = (IntPtr)Memory.Program.Read<uint>(Value, offsets);
 			}
 			return Memory.Program.Read(p, is64bit);
 		}
@@ -174,12 +174,12 @@ namespace LiveSplit.Splasher {
 				pointer = GetVersionedFunctionPointer();
 				if (pointer != IntPtr.Zero) {
 					bool is64bit = Memory.Program.Is64Bit();
-					pointer = (IntPtr)Memory.Program.Read<int>(pointer);
+					pointer = (IntPtr)Memory.Program.Read<uint>(pointer);
 					if (AutoDeref) {
 						if (is64bit) {
-							pointer = (IntPtr)Memory.Program.Read<long>(pointer);
+							pointer = (IntPtr)Memory.Program.Read<ulong>(pointer);
 						} else {
-							pointer = (IntPtr)Memory.Program.Read<int>(pointer);
+							pointer = (IntPtr)Memory.Program.Read<uint>(pointer);
 						}
 					}
 				}
