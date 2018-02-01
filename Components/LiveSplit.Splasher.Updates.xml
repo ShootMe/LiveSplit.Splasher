@@ -1,13 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+	<update version="1.3.0">
+		<files>
+			<file path="Components/LiveSplit.Splasher.dll" status="changed"/>
+		</files>
+		<changelog>
+			<change> Updating for new Game version </change>
+		</changelog>
+	</update>
 	<update version="1.2.5">
 		<files>
 			<file path="Components/LiveSplit.Splasher.dll" status="changed"/>
 		</files>
 		<changelog>
-			<change>
-				Fix memory reading issues
-			</change>
+			<change> Fix memory reading issues </change>
 		</changelog>
 	</update>
 	<update version="1.2.1">
@@ -15,9 +21,7 @@
 			<file path="Components/LiveSplit.Splasher.dll" status="changed"/>
 		</files>
 		<changelog>
-			<change>
-				Game update fix
-			</change>
+			<change> Game update fix </change>
 		</changelog>
 	</update>
 	<update version="1.2.0">
@@ -25,9 +29,7 @@
 			<file path="Components/LiveSplit.Splasher.dll" status="changed"/>
 		</files>
 		<changelog>
-			<change>
-				Fix layout settings not saving sometimes
-			</change>
+			<change> Fix layout settings not saving sometimes </change>
 		</changelog>
 	</update>
 	<update version="1.1.0">
@@ -35,9 +37,7 @@
 			<file path="Components/LiveSplit.Splasher.dll" status="changed"/>
 		</files>
 		<changelog>
-			<change>
-				Hopefully fix IGT drift
-			</change>
+			<change> Hopefully fix IGT drift </change>
 		</changelog>
 	</update>
 	<update version="1.0.0">
@@ -45,9 +45,7 @@
 			<file path="Components/LiveSplit.Splasher.dll" status="changed"/>
 		</files>
 		<changelog>
-			<change>
-				Initial Release
-			</change>
+			<change> Initial Release </change>
 		</changelog>
 	</update>
 </updates>

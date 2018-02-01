@@ -7,7 +7,7 @@ namespace LiveSplit.Splasher {
 		public string ComponentName { get { return "Splasher Autosplitter v" + this.Version.ToString(); } }
 		public string Description { get { return "Autosplitter for Splasher"; } }
 		public ComponentCategory Category { get { return ComponentCategory.Control; } }
-		public IComponent Create(LiveSplitState state) { return new SplasherComponent(); }
+		public IComponent Create(LiveSplitState state) { return new SplasherComponent(state); }
 		public string UpdateName { get { return this.ComponentName; } }
 		public string UpdateURL { get { return "https://raw.githubusercontent.com/ShootMe/LiveSplit.Splasher/master/"; } }
 		public string XMLURL { get { return this.UpdateURL + "Components/LiveSplit.Splasher.Updates.xml"; } }

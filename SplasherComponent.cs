@@ -20,11 +20,24 @@ namespace LiveSplit.Splasher {
 		private SplasherSettings settings;
 		private static string LOGFILE = "_Splasher.log";
 
-		public SplasherComponent() {
+		public SplasherComponent(LiveSplitState state) {
 			mem = new SplasherMemory();
 			settings = new SplasherSettings();
 			foreach (string key in keys) {
 				currentValues[key] = "";
+			}
+
+			if (state != null) {
+				Model = new TimerModel() { CurrentState = state };
+				Model.InitializeGameTime();
+				Model.CurrentState.IsGameTimePaused = true;
+				state.OnReset += OnReset;
+				state.OnPause += OnPause;
+				state.OnResume += OnResume;
+				state.OnStart += OnStart;
+				state.OnSplit += OnSplit;
+				state.OnUndoSplit += OnUndoSplit;
+				state.OnSkipSplit += OnSkipSplit;
 			}
 		}
 
@@ -146,17 +159,12 @@ namespace LiveSplit.Splasher {
 		}
 
 		public void Update(IInvalidator invalidator, LiveSplitState lvstate, float width, float height, LayoutMode mode) {
-			if (Model == null) {
-				Model = new TimerModel() { CurrentState = lvstate };
-				Model.InitializeGameTime();
-				Model.CurrentState.IsGameTimePaused = true;
-				lvstate.OnReset += OnReset;
-				lvstate.OnPause += OnPause;
-				lvstate.OnResume += OnResume;
-				lvstate.OnStart += OnStart;
-				lvstate.OnSplit += OnSplit;
-				lvstate.OnUndoSplit += OnUndoSplit;
-				lvstate.OnSkipSplit += OnSkipSplit;
+			IList<ILayoutComponent> components = lvstate.Layout.LayoutComponents;
+			for (int i = components.Count - 1; i >= 0; i--) {
+				ILayoutComponent component = components[i];
+				if (component.Component is SplasherComponent && invalidator == null && width == 0 && height == 0) {
+					components.Remove(component);
+				}
 			}
 
 			GetValues();
